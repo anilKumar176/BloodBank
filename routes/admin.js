@@ -1,13 +1,9 @@
 let express = require('express');
 let router = express.Router({mergeParams:true});
 let bcrypt = require('bcryptjs');
-let passport = require('passport');
-let localpassport = require('passport-local').Strategy;
 let path = require('path');
 let flash = require('connect-flash');
 let connection = require('../database.js');
-const { fchmod } = require('fs');
-const { promises } = require('dns');
 const bloodInventory = {
     "A+": 0,
     "A-": 0,
@@ -19,48 +15,11 @@ const bloodInventory = {
     "O-": 0
 };
 
-// Initialize flash messages and static files
+
 router.use(express.static(path.join(__dirname, "../public")));
 router.use(flash());
 
-// Passport Local Strategy for Admin
-passport.use('admin-local', new localpassport(
-    async function (username, password, done) {
-        try {
-            connection.query(`SELECT * FROM Admin WHERE username = ?`, [username], async function (err, result) {
-                if (err) throw err;
-                if (result.length == 0) return done(null, false);
-                
-                let user = result[0];
-                let match = await bcrypt.compare(password, user.password);
-                
-                if (match){
-                    return done(null, user);
-                    
-                } 
-                else return done(null, false);
-            });
-        } catch (err) {
-            console.log(err);
-            return done(err);
-        }
-    }
-));
 
-
-
-router.get("/login", function (req, res) {
-    if (req.isAuthenticated() && req.user.role === 'admin') 
-        res.redirect('/admin/dashboard');
-    else 
-        res.render('admin_login.ejs');
-});
-
-router.post("/login", passport.authenticate('admin-local', {
-    successRedirect: "/admin/dashboard",
-    failureRedirect: "/admin/login",
-    failureFlash: true
-}));
 router.get("/dashboard",async function (req, res) {
     if (req.isAuthenticated() && req.user.role === 'admin' ){
         try{
@@ -87,7 +46,7 @@ router.get("/dashboard",async function (req, res) {
     }
         
     else 
-        res.redirect("/admin/login");
+        res.redirect("/user");
 });
 router.get("/signup",function(req,res){
     res.render('admin_signup.ejs');
@@ -195,11 +154,4 @@ router.get('/rejectCamp/:camp_id',function(req,res){
     }
 })
 
-
-router.get('/logout', function (req, res) {
-    req.logout(function (err) {
-        if (err) console.log(err);
-        res.redirect('/');
-    });
-});
 module.exports = router;

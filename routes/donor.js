@@ -1,36 +1,14 @@
 let express = require('express');
 let router = express.Router({mergeParams: true });
 let bcrypt = require('bcryptjs');
-let passport = require('passport');
-let localpassportdonor = require('passport-local').Strategy;
 let path = require('path');
 let connection = require('../database.js');
-const { route } = require('./admin.js');
 let bankdata='';
 let donationData='';
-// Initialize flash messages and static files
+
 router.use(express.static(path.join(__dirname, "../public")));
 
-// Passport Local Strategy for Donor
-passport.use('donor-local', new localpassportdonor(
-    async function (username, password, done) {
-        try {
-            connection.query(`SELECT * FROM donor WHERE email = ?`, [username], async function (err, result) {
-                if (err) throw err;
-                if (result.length == 0) return done(null, false);
 
-                let user = result[0];
-                let match = await bcrypt.compare(password, user.password);
-                if (match) 
-                    return done(null, user)
-                else return done(null, false);
-            });
-        } catch (err) {
-            console.log("errorin passport authenication ",err);
-            return done(err);
-        }
-    }
-));
 
 
 router.get("/signup", function (req, res) {
@@ -52,18 +30,6 @@ router.post("/signup", async function (req, res) {
     }
 });
 
-router.get("/login", function (req, res) {
-    if (req.isAuthenticated()&& req.user.role === 'donor') 
-        res.redirect('/donor/dashboard')
-    else 
-        res.render("donor_login.ejs");
-});
-
-router.post("/login", passport.authenticate('donor-local', {
-    successRedirect: "/donor/dashboard",
-    failureRedirect: "/donor/login",
-    failureFlash: true
-}));
 
 router.get("/dashboard",async function (req, res) {
     if (req.isAuthenticated()&& req.user.role === 'donor' ){
@@ -88,7 +54,7 @@ router.get("/dashboard",async function (req, res) {
         res.render("donor_dashboard.ejs", {user: req.user,bankdata,donationData});
     }
     else 
-        res.redirect('/donor/login');
+        res.redirect('/user');
 });
 router.post("/dashboard/update/:id",async function(req,res){
     let {id}=req.params;
@@ -161,13 +127,5 @@ router.get("/dashboard/drop_request/:donor_id",function(req,res){
         res.redirect('/donor/dashboard');
     })
 })
-
-router.get('/logout', function (req, res) {
-    bankdata=''
-    req.logout(function (err) {
-        if (err) console.log(err);
-        res.redirect('/');
-    });
-});
 
 module.exports = router;

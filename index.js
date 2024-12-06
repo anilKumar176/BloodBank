@@ -10,6 +10,7 @@ let admin = require('./routes/admin.js');
 let donor = require('./routes/donor.js');
 let bank = require('./routes/bank.js');
 let camp = require('./routes/camp.js');
+let login = require('./routes/login.js');
 let availability =require('./routes/availability.js')
 let connection = require('./database.js');
 let port=process.env.PORT||3000;
@@ -65,6 +66,7 @@ app.use('/donor', donor);
 app.use('/bank', bank);
 app.use('/camp',camp);
 app.use('/availability', availability);
+app.use("/user",login);
 
 // Default routes
 app.get("/", function (req, res) {
@@ -87,7 +89,6 @@ app.get("/FAQs", function (req, res) {
 app.get("/contact", function (req, res) {
   res.render("contact.ejs");
 });
-
 
 app.listen(port, function () {
   console.log("Server started at port ",port);

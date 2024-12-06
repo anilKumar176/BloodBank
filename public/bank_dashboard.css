@@ -73,7 +73,7 @@ td{
     color: #333;
     text-align: center;
 }
-#dashboard,#donation-repository,#profile,#blood-inventory,#report,#upcoming-donation{
+#dashboard,#donation-repository,#profile,#blood-inventory,#report,#upcoming-donation,#reports{
     height: 100%;
     background-color: white;
     padding: 2vh;

@@ -9,7 +9,7 @@ body{
 }
 .nav{
     width: 100vw;
-    padding: 0vh 4vw;
+    padding: 0vw 1vw 0vw 4vw;
     background-color: white;
     height: 8vh;
     position: sticky;
@@ -47,7 +47,7 @@ body{
     flex-direction: column;
 }
 .title_main{
-    background-color: #007BFF;
+    background-color: 	#1a504c;
     color: white;
 }
 .title_container{
@@ -58,32 +58,52 @@ body{
     justify-content: space-between;
     align-items: center;
 }
+.login_part{
+    height: 8vh;
+    padding: 0vh 1vh;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.login_part i{
+    font-size: 35px;
+    color:#007BFF;
+    cursor: pointer;
+}
+.login_part p{
+    font-weight: 600;
+    text-transform: none;
+    font-size: 11px;
+}
 .title_container p{
     font-weight: 600;
 }
 .title_container li{
-    font-weight: 600;
+    font-weight: 700;
 }
 .title_part i{
     color: white;
     font-size: 20px;
 }
 .title_part:hover{
-    background-color: #007BFF;
+    background-color: 	#1a504c;
     color: white;
 }
 .title_part:hover ul{
     visibility: visible;
     color: black;
+    box-shadow: 0px 0px  10px rgba(0, 0, 0, 0.3);
 }
 .title_part ul li:hover{
     color:white;
-    background-color: #007bff80;
+    background-color: 		#237d76;
 }
 
 .title_part ul{
     height: max-content;
-    width: 16vw;
+    width: 12vw;
     list-style: none;
     text-transform: capitalize;
     display: flex;
@@ -97,6 +117,21 @@ body{
 .title_part ul li{
     padding: 1.5vh 2vh 1.5vh 2vh;
     color: rgba(0, 0, 0, 0.9);
+}
+.header-login-btn {
+    background: linear-gradient(135deg, #ff1a1a, #b30000);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 8px 15px rgba(255, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.header-login-btn:hover{
+    background: linear-gradient(135deg, #b30000,#ff1a1a);
 }
 .footer{
     background-color: rgba(0, 0, 0, 0.9);
@@ -126,13 +161,13 @@ body{
     transition: 0.1s linear;
 }
 .footer div{
-    width: 100%;
+    width: 80vw;
     padding-top: 2vw;
     display: flex;
     justify-content: space-evenly;
 }
 .footer_base{
-    width: 100%;
+    width: 80vw;
     height: 15vh;
     justify-content: center;
     align-items: center;

@@ -6,7 +6,7 @@
         perspective: 100px;
     }
     .card-container {
-        display: none; /* Hide cards by default */
+        display: none; 
         background-color: #fff;
         border: 0px solid;
         height: 25vh;
@@ -14,10 +14,10 @@
         border-radius: 10px;
         box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
         margin-top: 20px;
-        padding: 20px; /* Hide cards by default */
+        padding: 20px; 
     }
     .card-container.active {
-        display: block; /* Show only the active card */
+        display: block; 
     }
     .text-center{
         display: flex;
@@ -36,6 +36,13 @@
         align-items: center;
     }
     .blood-btn:hover{
+        background-color: #BF222B;
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 0 20px #BF222B;
+        cursor: pointer;
+    }
+    .blood-active{
         background-color: #BF222B;
         color: white;
         font-weight: 600;
@@ -69,8 +76,8 @@
         letter-spacing: 2px;
     }
     .containermy-4{
-        height: 100%;
-        width: 100%;
+        height: 60vh;
+        width: 50vw;
         padding: 3vh;
         display: flex;
         flex-direction: column;
@@ -163,14 +170,14 @@
                 <h2 class="text-center mb-4">Compatible Blood Type Donors</h2>
                 <!-- Blood Type Buttons -->
                 <div class="text-center">
-                    <button class=" blood-btn" onclick="showBloodType('A+')">A+</button>
-                    <button class=" blood-btn" onclick="showBloodType('B+')">B+</button>
-                    <button class=" blood-btn" onclick="showBloodType('AB+')">AB+</button>
-                    <button class=" blood-btn" onclick="showBloodType('O+')">O+</button>
-                    <button class=" blood-btn" onclick="showBloodType('A-')">A-</button>
-                    <button class=" blood-btn" onclick="showBloodType('B-')">B-</button>
-                    <button class=" blood-btn" onclick="showBloodType('AB-')">AB-</button>
-                    <button class=" blood-btn" onclick="showBloodType('O-')">O-</button>
+                    <button class="A+ blood-btn blood-active" onclick="showBloodType('A+')">A+</button>
+                    <button class="B+ blood-btn" onclick="showBloodType('B+')">B+</button>
+                    <button class="AB+ blood-btn" onclick="showBloodType('AB+')">AB+</button>
+                    <button class="O+ blood-btn" onclick="showBloodType('O+')">O+</button>
+                    <button class="A- blood-btn" onclick="showBloodType('A-')">A-</button>
+                    <button class="B- blood-btn" onclick="showBloodType('B-')">B-</button>
+                    <button class="AB- blood-btn" onclick="showBloodType('AB-')">AB-</button>
+                    <button class="O- blood-btn" onclick="showBloodType('O-')">O-</button>
                 </div>
             
                 <!-- Blood Type Compatibility Cards -->
@@ -235,7 +242,10 @@
         document.querySelectorAll('.card-container').forEach(container => {
             container.classList.remove('active');
         });
-
+        document.querySelectorAll('.blood-btn').forEach(btn => {
+            btn.classList.remove('blood-active');
+        });
+        document.getElementsByClassName(type)[0].classList.add('blood-active');
         document.getElementById(type).classList.add('active');
     }
     const slider = document.querySelector('.slider');

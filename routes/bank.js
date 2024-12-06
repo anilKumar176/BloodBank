@@ -1,50 +1,15 @@
 let express=require('express');
 let router=express.Router({mergeParams:true});
 let path=require('path');
-let passport = require('passport');
-let localpassportdonor = require('passport-local').Strategy;
 let bcrypt = require('bcryptjs');
 let connection = require('../database.js');
-const { route } = require('./admin.js');
-
-
 
 router.use(express.json())
 router.use(express.static(path.join(__dirname,"../public")));
 
-passport.use('bank_admin-local', new localpassportdonor(
-    async function (username, password, done) {
-        try {
-            connection.query(`SELECT * FROM bank_admin WHERE username = ?`, [username], async function (err, result) {
-                if (err) throw err;
-                if (result.length == 0) return done(null, false);
-
-                let user = result[0];
-                let match = await bcrypt.compare(password, user.password);
-                if (match) 
-                    return done(null, user)
-                else return done(null, false);
-            });
-        } catch (err) {
-            console.log(err);
-            return done(err);
-        }
-    }
-));
 router.get("/Registration",function(req,res){
     res.render("blood_bank_registration.ejs");
 })
-router.get("/login",function(req,res){
-    if (req.isAuthenticated()&& req.user.role === 'bank_admin') 
-        res.redirect('/bank/dashboard')
-    else 
-        res.render("blood_bank_login.ejs");
-})
-router.post("/login",passport.authenticate('bank_admin-local', {
-    successRedirect: "/bank/dashboard",
-    failureRedirect: "/bank/login",
-    failureFlash: true
-}));
 
 router.get("/dashboard",async function(req,res){
     let bankdata;
@@ -119,7 +84,7 @@ router.get("/dashboard",async function(req,res){
         res.render("blood_bank_dashboard.ejs",{bankdata,donordata,donationdata,bloodInventory});
     }
     else 
-        res.redirect('/bank/login');
+        res.redirect('/user');
 })
 router.post("/submition",async function(req,res){
     try{
@@ -285,12 +250,5 @@ router.get("/dashboard/donation_history/reject_donor/:donation_id",function(req,
     }
 
 })
-
-router.get('/logout', function (req, res) {
-    req.logout(function (err) {
-        if (err) console.log("error in bank logout",err);
-        res.redirect('/');
-    });
-});
 
 module.exports = router;
