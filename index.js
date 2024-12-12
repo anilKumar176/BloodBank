@@ -11,7 +11,8 @@ let donor = require('./routes/donor.js');
 let bank = require('./routes/bank.js');
 let camp = require('./routes/camp.js');
 let login = require('./routes/login.js');
-let availability =require('./routes/availability.js')
+let availability =require('./routes/availability.js');
+let forgetPassword=require('./routes/forgetpassword.js');
 let connection = require('./database.js');
 let port=process.env.PORT||3000;
 let flash = require('connect-flash');
@@ -67,6 +68,7 @@ app.use('/bank', bank);
 app.use('/camp',camp);
 app.use('/availability', availability);
 app.use("/user",login);
+app.use("/forgetpassword",forgetPassword);
 
 // Default routes
 app.get("/", function (req, res) {
@@ -93,5 +95,4 @@ app.get("/contact", function (req, res) {
 app.listen(port, function () {
   console.log("Server started at port ",port);
 });
-
 

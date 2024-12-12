@@ -22,7 +22,7 @@ router.post("/signup", async function (req, res) {
         let sql = "INSERT INTO donor (name, age, gender, bloodgroup, email, phone, address, pin, password,aadhar,father_name) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
         connection.query(sql, [name, age, gender, bloodgroup, email, phone, address, pin, password,aadhar,father_name], function (err, result) {
             if (err) throw err;
-            res.redirect('/donor/login');
+            res.redirect('/user/');
         });
     } catch (err) {
         console.log(err);
